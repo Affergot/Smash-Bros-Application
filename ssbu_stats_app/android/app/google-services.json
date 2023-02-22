@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "845486887515",
+    "project_id": "ssbu-stats",
+    "storage_bucket": "ssbu-stats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845486887515:android:ecc92cf2aecf207958a57e",
+        "android_client_info": {
+          "package_name": "io.affergot.ssbu_stats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845486887515-ijrnd63kr8te8lkhodjvft4i01sb0tpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANf1r1DID6wVgI6kGE-0EZct5op6Al9Wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845486887515-ijrnd63kr8te8lkhodjvft4i01sb0tpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
