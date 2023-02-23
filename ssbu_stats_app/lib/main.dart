@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   runApp(MyApp(key: UniqueKey()));
 }
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(
+      home: const HomePage(
         title: '',
       ),
     );
@@ -45,21 +45,27 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration:
+                  BoxDecoration(color: Color.fromARGB(255, 20, 93, 153)),
+              child: Text('SB Stats'),
+            ),
+            ListTile(title: const Text("Characters"), onTap: () {}),
+            ListTile(title: const Text("Stages"), onTap: () {}),
+            ListTile(title: const Text("Extra"), onTap: () {}),
+          ],
+        ),
+      ),
       body: Row(
         children: [
-          Container(
-            width: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Menu bar'),
-              ],
-            ),
-          ),
           Expanded(
             child: Container(
               color: Colors.grey[200],
-              child: Center(
+              child: const Center(
                 child: Text('Main content'),
               ),
             ),
@@ -79,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+/*
   Future<void> _login() async {
     try {
       final userCredential =
@@ -90,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
       // Login successful, navigate to home screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -100,15 +106,15 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
@@ -116,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Please enter your email';
@@ -124,10 +130,10 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
@@ -136,12 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
-                child: Text('Login'),
+                child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _login();
+                    //_login();
                   }
                 },
               ),
