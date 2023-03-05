@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'characters_page.dart';
+import 'stages_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SB Stats'),
+        backgroundColor: Colors.blue.shade900,
+        foregroundColor: Colors.yellowAccent.shade400,
         actions: [
           IconButton(
             icon: const Icon(Icons.login),
@@ -46,9 +49,14 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration:
-                  BoxDecoration(color: Color.fromARGB(255, 20, 93, 153)),
-              child: Text('SB Stats'),
+              decoration: BoxDecoration(
+                color: Color(0xFF0D47A1),
+                //image: Image.file(File('/logo.jpg')).image)
+              ),
+              child: Text(
+                'SB Stats',
+                style: TextStyle(color: Color(0xFFFFEA00)),
+              ),
             ),
             ListTile(
               title: const Text('Characters'),
@@ -62,7 +70,10 @@ class HomePage extends StatelessWidget {
             ListTile(
               title: const Text('Stages'),
               onTap: () {
-                // Handle the onTap event here.
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StagePage()),
+                );
               },
             ),
             ListTile(
@@ -107,6 +118,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        backgroundColor: Colors.blue.shade900,
+        foregroundColor: Colors.yellowAccent.shade400,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -139,6 +152,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.yellowAccent.shade400,
+                    backgroundColor: Colors.blue.shade900),
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

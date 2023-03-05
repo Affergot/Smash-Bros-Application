@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class CharactersPage extends StatelessWidget {
-  const CharactersPage({Key? key}) : super(key: key);
+class StagePage extends StatelessWidget {
+  const StagePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Characters'),
+        title: const Text('Stages'),
         backgroundColor: Colors.blue.shade900,
         foregroundColor: Colors.yellowAccent.shade400,
       ),
       body: const Center(
-        child: Text('This is the characters page'),
+        child: Text('This is the stage picker page'),
       ),
     );
   }
