@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StagePage extends StatelessWidget {
   StagePage({Key? key}) : super(key: key);
-  String _selectedCharacter = '';
+  String _selectedCharacter = 'Banjo & Kazooie';
   final List<String> _characterList = [
     "Banjo & Kazooie",
     "Bayonetta",
@@ -33,58 +33,58 @@ class StagePage extends StatelessWidget {
     "Jigglypuff",
     "Joker",
     "Kazuya",
-    "Ken"
-        "King Dedede"
-        "King K. Rool"
-        "Kirby"
-        "Link"
-        "Little Mac"
-        "Lucario"
-        "Lucas"
-        "Lucina"
-        "Luigi"
-        "Mario"
-        "Marth"
-        "Mega Man"
-        "Meta Knight"
-        "Mewtwo"
-        "Mii Brawler"
-        "Mii Gunner"
-        "Mii Swordfighter"
-        "Min Min"
-        "Mr. Game & Watch"
-        "Ness"
-        "Olimar"
-        "Pac-Man"
-        "Palutena"
-        "Peach"
-        "Pichu"
-        "Pikachu"
-        "Piranha Plant"
-        "Pit"
-        "Pokémon Trainer"
-        "Richter"
-        "Ridley"
-        "Robin"
-        "Rosalina & Luma"
-        "Roy"
-        "Ryu"
-        "Samus"
-        "Sheik"
-        "Shulk"
-        "Simon"
-        "Snake"
-        "Sonic"
-        "Terry"
-        "Toon Link"
-        "Villager"
-        "Wario"
-        "Wii Fit Trainer"
-        "Wolf"
-        "Yoshi"
-        "Young Link"
-        "Zelda"
-        "Zero Suit Samus"
+    "Ken",
+    "King Dedede",
+    "King K. Rool",
+    "Kirby",
+    "Link",
+    "Little Mac",
+    "Lucario",
+    "Lucas",
+    "Lucina",
+    "Luigi",
+    "Mario",
+    "Marth",
+    "Mega Man",
+    "Meta Knight",
+    "Mewtwo",
+    "Mii Brawler",
+    "Mii Gunner",
+    "Mii Swordfighter",
+    "Min Min",
+    "Mr. Game & Watch",
+    "Ness",
+    "Olimar",
+    "Pac-Man",
+    "Palutena",
+    "Peach",
+    "Pichu",
+    "Pikachu",
+    "Piranha Plant",
+    "Pit",
+    "Pokémon Trainer",
+    "Richter",
+    "Ridley",
+    "Robin",
+    "Rosalina & Luma",
+    "Roy",
+    "Ryu",
+    "Samus",
+    "Sheik",
+    "Shulk",
+    "Simon",
+    "Snake",
+    "Sonic",
+    "Terry",
+    "Toon Link",
+    "Villager",
+    "Wario",
+    "Wii Fit Trainer",
+    "Wolf",
+    "Yoshi",
+    "Young Link",
+    "Zelda",
+    "Zero Suit Samus"
   ];
 
   @override
