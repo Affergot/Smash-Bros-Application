@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'characters_page.dart';
+import 'stages_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp(key: UniqueKey()));
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({required Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,9 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(
-        title: '',
-      ),
+      home: const HomePage(title: ''),
     );
   }
 }
@@ -33,6 +30,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SB Stats'),
+        backgroundColor: Colors.blue.shade900,
+        foregroundColor: Colors.yellowAccent.shade400,
         actions: [
           IconButton(
             icon: const Icon(Icons.login),
@@ -50,13 +49,39 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration:
-                  BoxDecoration(color: Color.fromARGB(255, 20, 93, 153)),
-              child: Text('SB Stats'),
+              decoration: BoxDecoration(
+                color: Color(0xFF0D47A1),
+                //image: Image.file(File('/logo.jpg')).image)
+              ),
+              child: Text(
+                'SB Stats',
+                style: TextStyle(color: Color(0xFFFFEA00)),
+              ),
             ),
-            ListTile(title: const Text("Characters"), onTap: () {}),
-            ListTile(title: const Text("Stages"), onTap: () {}),
-            ListTile(title: const Text("Extra"), onTap: () {}),
+            ListTile(
+              title: const Text('Matchup Finder'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CharactersPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Stages'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StagePage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Extra'),
+              onTap: () {
+                // Handle the onTap event here.
+              },
+            ),
           ],
         ),
       ),
@@ -77,6 +102,8 @@ class HomePage extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -86,32 +113,13 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future<void> _login() async {
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // Login successful, navigate to home screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        backgroundColor: Colors.blue.shade900,
+        foregroundColor: Colors.yellowAccent.shade400,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -144,10 +152,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.yellowAccent.shade400,
+                    backgroundColor: Colors.blue.shade900),
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    //_login();
+                    // Handle the login event here.
                   }
                 },
               ),
