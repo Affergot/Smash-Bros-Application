@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MyApp(key: UniqueKey()));
 }
 
@@ -76,6 +73,53 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class NewHomePage extends StatefulWidget {
+  final String title;
+  NewHomePage({Key? key, this.title = "no one"}) : super(key: key);
+
+  @override
+  _NewHomePageState createState() => new _NewHomePageState();
+}
+
+class _NewHomePageState extends State<NewHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('SB Stats'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 20, 93, 153)),
+                child: Text('SB Stats'),
+              ),
+              ListTile(title: const Text("Characters"), onTap: () {}),
+              ListTile(title: const Text("Stages"), onTap: () {}),
+              ListTile(title: const Text("Extra"), onTap: () {}),
+            ],
+          ),
+        ),
+        body: new Center(
+          child: new Text("Welcome back ${widget.title} to the Smash Bros App"),
+        ));
+  }
+}
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -85,27 +129,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  Future<void> _login() async {
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // Login successful, navigate to home screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +170,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    //_login();
+                    var route = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new NewHomePage(title: _emailController.text),
+                    );
+                    Navigator.of(context).push(route);
                   }
                 },
               ),
