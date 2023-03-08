@@ -114,6 +114,8 @@ class _NewHomePageState extends State<NewHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.blue.shade900,
+          foregroundColor: Colors.yellowAccent.shade400,
           title: const Text('SB Stats'),
           actions: [
             IconButton(
@@ -132,13 +134,39 @@ class _NewHomePageState extends State<NewHomePage> {
             padding: EdgeInsets.zero,
             children: [
               const DrawerHeader(
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 20, 93, 153)),
-                child: Text('SB Stats'),
+                decoration: BoxDecoration(
+                  color: Color(0xFF0D47A1),
+                  //image: Image.file(File('/logo.jpg')).image)
+                ),
+                child: Text(
+                  'SB Stats',
+                  style: TextStyle(color: Color(0xFFFFEA00)),
+                ),
               ),
-              ListTile(title: const Text("Characters"), onTap: () {}),
-              ListTile(title: const Text("Stages"), onTap: () {}),
-              ListTile(title: const Text("Extra"), onTap: () {}),
+              ListTile(
+                title: const Text('Characters'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CharactersPage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Stages'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StagePage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Extra'),
+                onTap: () {
+                  // Handle the onTap event here.
+                },
+              ),
             ],
           ),
         ),
@@ -177,10 +205,10 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Please enter your email';
+                    return 'Please enter your name';
                   }
                   return null;
                 },
@@ -205,7 +233,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Handle the login event here.
+                    var route = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new NewHomePage(title: _emailController.text),
+                    );
+                    Navigator.of(context).push(route);
                   }
                 },
               ),
