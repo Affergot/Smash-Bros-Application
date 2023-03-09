@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ssbu_stats_app/backend/character_data.dart';
+import 'package:ssbu_stats_app/backend/data_manager.dart';
+
 import 'package:ssbu_stats_app/tools/character_selector.dart';
 
 class CharactersPage extends StatefulWidget {
@@ -10,6 +13,8 @@ class CharactersPage extends StatefulWidget {
 
 class _CharactersPageState extends State<CharactersPage> {
   bool showBestMatchups = false;
+
+  DataManager dataManager = DataManager();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class _CharactersPageState extends State<CharactersPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.asset(
-                            "assets/character_icons/Snake.png",
+                            dataManager.playerCharacter.getIconURL(),
                             width: 65,
                             height: 65,
                             fit: BoxFit.contain,
@@ -58,18 +63,23 @@ class _CharactersPageState extends State<CharactersPage> {
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white),
                             ),
-                            onPressed: () {
-                              Navigator.push(
+                            onPressed: () async {
+                              dynamic selectedCharacter = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const CharacterSelect()),
                               );
+                              setState(() {
+                                dataManager.playerCharacter =
+                                    CharacterData.map(selectedCharacter);
+                              });
                             },
-                            child: const Text("Snake",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
+                            child:
+                                Text(dataManager.playerCharacter.characterName,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    )),
                           ),
                         )
                       ],
@@ -87,7 +97,7 @@ class _CharactersPageState extends State<CharactersPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.asset(
-                            "assets/character_icons/Lucina.png",
+                            dataManager.opponentCharacter.getIconURL(),
                             width: 65,
                             height: 65,
                             fit: BoxFit.contain,
@@ -102,8 +112,19 @@ class _CharactersPageState extends State<CharactersPage> {
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white),
                             ),
-                            onPressed: () {},
-                            child: const Text("Lucina",
+                            onPressed: () async {
+                              dynamic selectedCharacter = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CharacterSelect()),
+                              );
+                              setState(() {
+                                dataManager.opponentCharacter =
+                                    CharacterData.map(selectedCharacter);
+                              });
+                            },
+                            child: Text(
+                                dataManager.opponentCharacter.characterName,
                                 style: TextStyle(
                                   fontSize: 16,
                                 )),
