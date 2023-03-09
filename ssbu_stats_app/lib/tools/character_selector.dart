@@ -23,7 +23,7 @@ class _CharacterSelectState extends State<CharacterSelect> {
         appBar: AppBar(
           backgroundColor: Colors.blue.shade900,
           foregroundColor: Colors.yellowAccent.shade400,
-          title: Text("Select a Character"),
+          title: const Text("Select a Character"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -38,12 +38,12 @@ class _CharacterSelectState extends State<CharacterSelect> {
                     controller: characterFilter,
                     decoration: InputDecoration(
                       labelText: "Filter Characters",
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.search),
                       suffixIcon: (characterFilter.text.isEmpty)
-                          ? SizedBox(width: 0)
+                          ? const SizedBox(width: 0)
                           : IconButton(
-                              icon: Icon(Icons.close),
+                              icon: const Icon(Icons.close),
                               onPressed: () {
                                 characterFilter.clear();
                               },

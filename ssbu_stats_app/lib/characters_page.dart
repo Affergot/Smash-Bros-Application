@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:ssbu_stats_app/tools/character_selector.dart';
 
 class CharactersPage extends StatefulWidget {
-  CharactersPage({Key? key}) : super(key: key);
+  const CharactersPage({Key? key}) : super(key: key);
 
   @override
   State<CharactersPage> createState() => _CharactersPageState();
@@ -50,7 +49,7 @@ class _CharactersPageState extends State<CharactersPage> {
                             fit: BoxFit.contain,
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: ElevatedButton(
                             style: ButtonStyle(
@@ -63,10 +62,11 @@ class _CharactersPageState extends State<CharactersPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CharacterSelect()),
+                                    builder: (context) =>
+                                        const CharacterSelect()),
                               );
                             },
-                            child: Text("Snake",
+                            child: const Text("Snake",
                                 style: TextStyle(
                                   fontSize: 16,
                                 )),
@@ -74,7 +74,7 @@ class _CharactersPageState extends State<CharactersPage> {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text("Opponent's Character:",
                         style: TextStyle(
                           color: Colors.grey[700],
@@ -93,7 +93,7 @@ class _CharactersPageState extends State<CharactersPage> {
                             fit: BoxFit.contain,
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: ElevatedButton(
                             style: ButtonStyle(
@@ -103,7 +103,7 @@ class _CharactersPageState extends State<CharactersPage> {
                                   Colors.white),
                             ),
                             onPressed: () {},
-                            child: Text("Lucina",
+                            child: const Text("Lucina",
                                 style: TextStyle(
                                   fontSize: 16,
                                 )),
@@ -129,7 +129,7 @@ class _CharactersPageState extends State<CharactersPage> {
                       letterSpacing: 1,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -159,14 +159,14 @@ class _CharactersPageState extends State<CharactersPage> {
                 Expanded(
                   child: ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.red),
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                       ),
-                      label: Text("Find Matchups",
+                      label: const Text("Find Matchups",
                           style: TextStyle(
                             fontSize: 14,
                             letterSpacing: 1,
@@ -189,8 +189,8 @@ class _CharactersPageState extends State<CharactersPage> {
                                 Icons.feed,
                                 color: Colors.grey[600],
                               ),
-                              SizedBox(width: 6),
-                              Text("Character Matchups",
+                              const SizedBox(width: 6),
+                              const Text("Character Matchups",
                                   style: TextStyle(
                                     fontSize: 16,
                                     letterSpacing: 1,
@@ -201,7 +201,6 @@ class _CharactersPageState extends State<CharactersPage> {
                       ))),
             ),
           ],
-
         ),
       ),
     );
