@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ssbu_stats_app/backend/character_data.dart';
+import 'package:ssbu_stats_app/backend/data_manager.dart';
 
 class CharacterSelect extends StatefulWidget {
   const CharacterSelect({super.key});
@@ -9,11 +11,28 @@ class CharacterSelect extends StatefulWidget {
 
 class _CharacterSelectState extends State<CharacterSelect> {
   final characterFilter = TextEditingController();
+  DataManager dataManager = DataManager();
+
+  List<CharacterData> filteredCharacterList = [];
 
   @override
   void initState() {
     super.initState();
-    characterFilter.addListener(() => setState(() {}));
+    characterFilter.addListener(() => setState(() {
+          filteredCharacterList = characterFilter.text.isEmpty
+              ? dataManager.characters
+              : dataManager.getFilteredCharacterList(characterFilter.text);
+        }));
+
+    filteredCharacterList = dataManager.characters;
+
+    // for (int i = 0; i < dataManager.characters.length; i++) {
+    //   print(dataManager.characters[i]);
+    // }
+  }
+
+  void selectCharacter(index) {
+    Navigator.pop(context, filteredCharacterList[index].toMap());
   }
 
   @override
@@ -52,6 +71,36 @@ class _CharacterSelectState extends State<CharacterSelect> {
                   ),
                 ),
               ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredCharacterList.length,
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1, horizontal: 0),
+                      child: Card(
+                        child: ListTile(
+                            onTap: () {
+                              selectCharacter(index);
+                            },
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.asset(
+                                filteredCharacterList[index].getIconURL(),
+                                width: 40,
+                                height: 40,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            title: Text(
+                              filteredCharacterList[index].characterName,
+                              textAlign: TextAlign.center,
+                            )),
+                      ),
+                    );
+                  }),
+                ),
+              )
             ],
           ),
         ));
