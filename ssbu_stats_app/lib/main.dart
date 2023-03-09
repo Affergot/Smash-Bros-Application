@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'SB Stats',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -101,6 +102,81 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class NewHomePage extends StatefulWidget {
+  final String title;
+  NewHomePage({Key? key, this.title = "no one"}) : super(key: key);
+
+  @override
+  _NewHomePageState createState() => new _NewHomePageState();
+}
+
+class _NewHomePageState extends State<NewHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue.shade900,
+          foregroundColor: Colors.yellowAccent.shade400,
+          title: const Text('SB Stats'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF0D47A1),
+                  //image: Image.file(File('/logo.jpg')).image)
+                ),
+                child: Text(
+                  'SB Stats',
+                  style: TextStyle(color: Color(0xFFFFEA00)),
+                ),
+              ),
+              ListTile(
+                title: const Text('Characters'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CharactersPage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Stages'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StagePage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('Extra'),
+                onTap: () {
+                  // Handle the onTap event here.
+                },
+              ),
+            ],
+          ),
+        ),
+        body: new Center(
+          child: new Text("Welcome back ${widget.title} to the Smash Bros App"),
+        ));
+  }
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -130,10 +206,10 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Please enter your email';
+                    return 'Please enter your name';
                   }
                   return null;
                 },
@@ -158,7 +234,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Handle the login event here.
+                    var route = new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new NewHomePage(title: _emailController.text),
+                    );
+                    Navigator.of(context).push(route);
                   }
                 },
               ),

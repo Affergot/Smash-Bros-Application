@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:ssbu_stats_app/tools/character_selector.dart';
 
 class CharactersPage extends StatefulWidget {
@@ -200,6 +201,7 @@ class _CharactersPageState extends State<CharactersPage> {
                       ))),
             ),
           ],
+
         ),
       ),
     );
