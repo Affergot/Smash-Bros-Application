@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: const Text('Characters'),
+              title: const Text('Matchup Finder'),
               onTap: () {
                 Navigator.push(
                   context,
