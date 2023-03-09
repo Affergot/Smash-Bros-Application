@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssbu_stats_app/tools/character_selector.dart';
 
 class CharactersPage extends StatefulWidget {
   CharactersPage({Key? key}) : super(key: key);
@@ -57,7 +58,13 @@ class _CharactersPageState extends State<CharactersPage> {
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CharacterSelect()),
+                              );
+                            },
                             child: Text("Snake",
                                 style: TextStyle(
                                   fontSize: 16,
@@ -174,11 +181,21 @@ class _CharactersPageState extends State<CharactersPage> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          Text("Character Matchups",
-                              style: TextStyle(
-                                fontSize: 16,
-                                letterSpacing: 1,
-                              ))
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.feed,
+                                color: Colors.grey[600],
+                              ),
+                              SizedBox(width: 6),
+                              Text("Character Matchups",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    letterSpacing: 1,
+                                  )),
+                            ],
+                          )
                         ],
                       ))),
             ),
