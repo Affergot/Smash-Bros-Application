@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
           ),
@@ -64,7 +64,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CharactersPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const CharactersPage()),
                 );
               },
             ),
@@ -104,10 +105,10 @@ class HomePage extends StatelessWidget {
 
 class NewHomePage extends StatefulWidget {
   final String title;
-  NewHomePage({Key? key, this.title = "no one"}) : super(key: key);
+  const NewHomePage({Key? key, this.title = "no one"}) : super(key: key);
 
   @override
-  _NewHomePageState createState() => new _NewHomePageState();
+  _NewHomePageState createState() => _NewHomePageState();
 }
 
 class _NewHomePageState extends State<NewHomePage> {
@@ -124,7 +125,7 @@ class _NewHomePageState extends State<NewHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
             ),
@@ -149,7 +150,8 @@ class _NewHomePageState extends State<NewHomePage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CharactersPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const CharactersPage()),
                   );
                 },
               ),
@@ -171,8 +173,8 @@ class _NewHomePageState extends State<NewHomePage> {
             ],
           ),
         ),
-        body: new Center(
-          child: new Text("Welcome back ${widget.title} to the Smash Bros App"),
+        body: Center(
+          child: Text("Welcome back ${widget.title} to the Smash Bros App"),
         ));
   }
 }
@@ -234,9 +236,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    var route = new MaterialPageRoute(
+                    var route = MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new NewHomePage(title: _emailController.text),
+                          NewHomePage(title: _emailController.text),
                     );
                     Navigator.of(context).push(route);
                   }
