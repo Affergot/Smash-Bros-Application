@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1d50fe2-81ec-4881-8427-8767d1097818" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ssbu_stats_app/lib/stages_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/ssbu_stats_app/lib/stages_page.dart" afterDir="false" />
-    </list>
+    <list default="true" id="b1d50fe2-81ec-4881-8427-8767d1097818" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +28,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "D:/OneDrive/Documents/GitHub/Smash-Bros-Application",
+    "last_opened_file_path": "C:/Flutter_Location",
     "settings.editor.selected.configurable": "dart.settings",
     "show.migrate.to.gradle.popup": "false"
   }
