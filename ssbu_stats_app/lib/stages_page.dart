@@ -11,7 +11,23 @@ class StagePage extends StatefulWidget {
 }
 
 class _StagePage extends State<StagePage> {
-  bool showBestMatchups = false;
+  bool showMatchUpBestStages = false;
+  bool showOverallBestStages = false;
+
+  //Set states to make sure that only one of the boxes is checked at a time
+  showOverallBestStagesOnly() {
+    setState(() {
+      showOverallBestStages = true;
+      showMatchUpBestStages = false;
+    });
+  }
+
+  showMatchUpBestStagesOnly() {
+    setState(() {
+      showMatchUpBestStages = true;
+      showOverallBestStages = false;
+    });
+  }
 
   DataManager dataManager = DataManager();
 
@@ -69,6 +85,9 @@ class _StagePage extends State<StagePage> {
                                     builder: (context) =>
                                         const CharacterSelect()),
                               );
+                              if (selectedCharacter == null) {
+                                return;
+                              }
                               setState(() {
                                 dataManager.playerCharacter =
                                     CharacterData.map(selectedCharacter);
@@ -76,7 +95,7 @@ class _StagePage extends State<StagePage> {
                             },
                             child:
                                 Text(dataManager.playerCharacter.characterName,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
                                     )),
                           ),
@@ -124,7 +143,7 @@ class _StagePage extends State<StagePage> {
                             },
                             child: Text(
                                 dataManager.opponentCharacter.characterName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                 )),
                           ),
@@ -154,15 +173,27 @@ class _StagePage extends State<StagePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Checkbox(
-                        value: showBestMatchups,
+                        value: showMatchUpBestStages,
                         onChanged: (value) {
-                          setState(() {
-                            showBestMatchups = value!;
-                          });
+                          showMatchUpBestStagesOnly();
                         },
                       ),
                       Text(
-                        "Show Best Stages",
+                        "Show Match-up Best Stages",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Checkbox(
+                        value: showOverallBestStages,
+                        onChanged: (value) {
+                          showOverallBestStagesOnly();
+                        },
+                      ),
+                      Text(
+                        "Show Overall Best Stages",
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 14,
