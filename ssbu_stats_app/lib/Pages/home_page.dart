@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => StagePage()),
+                  MaterialPageRoute(builder: (context) => const StagePage()),
                 );
               },
             ),
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               color: Colors.grey[200],
               child: const Center(
-                child: Text('Main content'),
+                child: Text('Welcome to the Smash Bros App'),
               ),
             ),
           ),
