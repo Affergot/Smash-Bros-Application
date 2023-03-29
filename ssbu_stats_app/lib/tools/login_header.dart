@@ -18,7 +18,7 @@ class loginHeader extends StatelessWidget {
       ),
       const SizedBox(height: 10.0),
       Image.asset(
-        "assets/character_icons/Mario.png",
+        "assets/character_icons/Logo.png",
         height: 150.0,
       ),
       const SizedBox(height: 10.0),
