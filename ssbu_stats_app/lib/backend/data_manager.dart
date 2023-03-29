@@ -1,4 +1,6 @@
 import 'package:ssbu_stats_app/backend/character_data.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:io';
 
 class DataManager {
   static final DataManager _singleton = DataManager._interal();
@@ -111,5 +113,38 @@ class DataManager {
     }
 
     return filteredList;
+  }
+}
+
+class CsvReader {
+  late final String _filePath;
+
+  CsvReader({String? filePath})
+      : _filePath = filePath ?? 'lib/database_files/overall_stage_stats.csv';
+
+  List<String> readLines() {
+    final file = File(_filePath);
+    return file.readAsLinesSync();
+  }
+
+  Map<String, dynamic> findCharacter(String name) {
+    final lines = readLines();
+
+    for (final line in lines) {
+      final values = line.split(',');
+
+      if (values[2] == name) {
+        final stageName = values[1];
+        final wins = int.parse(values[3]);
+        final losses = int.parse(values[4]);
+        return {
+          'stageName': stageName,
+          'wins': wins,
+          'losses': losses,
+        };
+      }
+    }
+
+    return {};
   }
 }
