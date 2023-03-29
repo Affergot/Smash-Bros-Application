@@ -68,8 +68,13 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Row(
+      body: Column(
         children: [
+          const SizedBox(height: 50.0),
+          Image.asset(
+            "assets/character_icons/Logo.png",
+            height: 150.0,
+          ),
           Expanded(
             child: Container(
               color: Colors.grey[200],
