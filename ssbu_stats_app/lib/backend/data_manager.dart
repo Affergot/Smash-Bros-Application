@@ -18,7 +18,7 @@ class DataManager {
     CharacterData("Bowser Jr.", "Bowser Jr.png"),
     CharacterData("Byleth", "Byleth.png"),
     CharacterData("Captain Falcon", "Captain Falcon.png"),
-    CharacterData("Chorrin", "Chorrin.png"),
+    CharacterData("Corrin", "Corrin.png"),
     CharacterData("Chrom", "Chrom.png"),
     CharacterData("Daisy", "Daisy.png"),
     CharacterData("Dark Pit", "Dark Pit.png"),
