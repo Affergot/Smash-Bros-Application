@@ -13,7 +13,8 @@ class StagePage extends StatefulWidget {
 class _StagePage extends State<StagePage> {
   bool showMatchUpBestStages = false;
   bool showOverallBestStages = false;
-
+  final _characterName = "Mario";
+  var _characterData = {};
   //Set states to make sure that only one of the boxes is checked at a time
   showOverallBestStagesOnly() {
     setState(() {
@@ -30,6 +31,15 @@ class _StagePage extends State<StagePage> {
   }
 
   DataManager dataManager = DataManager();
+
+  void _findCharacterData() {
+    final csvReader = CsvReader();
+    final characterData = csvReader.findCharacter(_characterName);
+
+    setState(() {
+      _characterData = characterData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +219,7 @@ class _StagePage extends State<StagePage> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: _findCharacterData,
                       icon: const Icon(Icons.search),
                       style: ButtonStyle(
                         backgroundColor:
