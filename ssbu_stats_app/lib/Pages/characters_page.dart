@@ -17,6 +17,15 @@ class _CharactersPageState extends State<CharactersPage> {
   DataManager dataManager = DataManager();
 
   @override
+  void initState() {
+    super.initState();
+
+    CsvReader csvReader =
+        CsvReader(filePath: 'lib/database_files/matchup_stats.csv');
+    csvReader.getMatchupData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

@@ -14,14 +14,14 @@ class DataManager {
   DataManager._interal();
 
   List<MatchupData> matchups = [
-    MatchupData(
-        "Bowser Fox Battlefield", "Bowser", "Fox", "Battlefield", 137, 225),
-    MatchupData("Captain Falcon Ike Pokemon Stadium 2", "Captain Falcon", "Ike",
-        "Pokemon Stadium 2", 252, 586),
-    MatchupData("Ganondorf Link Final Destination", "Ganondorf", "Link",
-        "Final Destination", 149, 290),
-    MatchupData("Lucina Pikachu Town and City", "Lucina", "Pikachu",
-        "Town and City", 192, 466)
+    // MatchupData(
+    //     "Bowser Fox Battlefield", "Bowser", "Fox", "Battlefield", 137, 225),
+    // MatchupData("Captain Falcon Ike Pokemon Stadium 2", "Captain Falcon", "Ike",
+    //     "Pokemon Stadium 2", 252, 586),
+    // MatchupData("Ganondorf Link Final Destination", "Ganondorf", "Link",
+    //     "Final Destination", 149, 290),
+    // MatchupData("Lucina Pikachu Town and City", "Lucina", "Pikachu",
+    //     "Town and City", 192, 466)
   ];
 
   List<CharacterData> characters = [
@@ -119,8 +119,6 @@ class DataManager {
   List<CharacterData> getFilteredCharacterList(String _filter) {
     List<CharacterData> filteredList = [];
 
-    print(matchups[0]);
-
     for (int i = 0; i < characters.length; i++) {
       if (characters[i]
           .characterName
@@ -164,5 +162,26 @@ class CsvReader {
     }
 
     return {};
+  }
+
+  void getMatchupData() {
+    DataManager dataManager = DataManager();
+
+    dataManager.matchups.clear();
+
+    final lines = readLines();
+
+    for (final line in lines) {
+      final values = line.split(',');
+
+      try {
+        MatchupData matchupData = (MatchupData(values[1], values[2], values[3],
+            values[4], int.parse(values[5]), int.parse(values[6])));
+        dataManager.matchups.add(matchupData);
+      } catch (error) {
+        print(error);
+      }
+    }
+    print(dataManager.matchups[18]);
   }
 }
