@@ -2,6 +2,8 @@ import 'package:ssbu_stats_app/backend/character_data.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:io';
 
+import 'package:ssbu_stats_app/backend/matchup_data.dart';
+
 class DataManager {
   static final DataManager _singleton = DataManager._interal();
 
@@ -10,6 +12,17 @@ class DataManager {
   }
 
   DataManager._interal();
+
+  List<MatchupData> matchups = [
+    MatchupData(
+        "Bowser Fox Battlefield", "Bowser", "Fox", "Battlefield", 137, 225),
+    MatchupData("Captain Falcon Ike Pokemon Stadium 2", "Captain Falcon", "Ike",
+        "Pokemon Stadium 2", 252, 586),
+    MatchupData("Ganondorf Link Final Destination", "Ganondorf", "Link",
+        "Final Destination", 149, 290),
+    MatchupData("Lucina Pikachu Town and City", "Lucina", "Pikachu",
+        "Town and City", 192, 466)
+  ];
 
   List<CharacterData> characters = [
     CharacterData("Banjo & Kazooie", "Banjo & Kazooie.png"),
@@ -106,6 +119,8 @@ class DataManager {
   List<CharacterData> getFilteredCharacterList(String _filter) {
     List<CharacterData> filteredList = [];
 
+    print(matchups[0]);
+
     for (int i = 0; i < characters.length; i++) {
       if (characters[i]
           .characterName
@@ -130,7 +145,7 @@ class CsvReader {
     return file.readAsLinesSync();
   }
 
-  Map<String, dynamic> findCharacter(String name) {
+  Map<String, dynamic> findCharacterStageInfo(String name) {
     final lines = readLines();
 
     for (final line in lines) {

@@ -3,7 +3,7 @@ class CharacterData {
   String characterIcon = "None.png"; //Endpoint of the character's icon URL
 
   //Constructor
-  CharacterData(String _characterName, _characterIcon) {
+  CharacterData(String _characterName, String _characterIcon) {
     //Initialize the variables
     characterName = _characterName;
     characterIcon = _characterIcon;
