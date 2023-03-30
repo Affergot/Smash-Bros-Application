@@ -31,7 +31,10 @@ class DataManager {
     List<CharacterData> filteredList = [];
 
     for (int i = 0; i < characters.length; i++) {
-      if (characters[i].characterName.startsWith(_filter)) {
+      if (characters[i]
+          .characterName
+          .toLowerCase()
+          .startsWith(_filter.toLowerCase())) {
         filteredList.add(characters[i]);
       }
     }
