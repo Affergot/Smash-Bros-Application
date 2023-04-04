@@ -127,24 +127,22 @@ class CsvReader {
     return file.readAsLinesSync();
   }
 
-  Map<String, dynamic> findCharacter(String name) {
+  String findCharacter(String name) {
     final lines = readLines();
+    String text = '';
+    int count = 0;
 
     for (final line in lines) {
       final values = line.split(',');
 
-      if (values[2] == name) {
+      if (values[2] == name && count < 4) {
         final stageName = values[1];
         final wins = int.parse(values[3]);
         final losses = int.parse(values[4]);
-        return {
-          'stageName': stageName,
-          'wins': wins,
-          'losses': losses,
-        };
+        text += '\nStage Name: $stageName \nWins: $wins \nLosses: $losses';
+        count++;
       }
     }
-
-    return {};
+    return text;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'characters_page.dart';
 import 'stages_page.dart';
+import 'temp_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -81,7 +82,8 @@ class HomePage extends StatelessWidget {
             ListTile(
               title: const Text('Extra'),
               onTap: () {
-                // Handle the onTap event here.
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TempPage()));
               },
             ),
           ],

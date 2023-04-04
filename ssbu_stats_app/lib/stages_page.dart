@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ssbu_stats_app/backend/character_data.dart';
 import 'package:ssbu_stats_app/backend/data_manager.dart';
 import 'package:ssbu_stats_app/tools/character_selector.dart';
+import 'temp_page.dart';
 
 class StagePage extends StatefulWidget {
   const StagePage({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class _StagePage extends State<StagePage> {
   bool showMatchUpBestStages = false;
   bool showOverallBestStages = false;
   final _characterName = "Mario";
-  var _characterData = {};
+  String characterName = "Mario";
+
   //Set states to make sure that only one of the boxes is checked at a time
   showOverallBestStagesOnly() {
     setState(() {
@@ -31,15 +33,6 @@ class _StagePage extends State<StagePage> {
   }
 
   DataManager dataManager = DataManager();
-
-  void _findCharacterData() {
-    final csvReader = CsvReader();
-    final characterData = csvReader.findCharacter(_characterName);
-
-    setState(() {
-      _characterData = characterData;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +94,8 @@ class _StagePage extends State<StagePage> {
                               setState(() {
                                 dataManager.playerCharacter =
                                     CharacterData.map(selectedCharacter);
+                                characterName =
+                                    dataManager.playerCharacter.characterName;
                               });
                             },
                             child:
@@ -219,7 +214,13 @@ class _StagePage extends State<StagePage> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                      onPressed: _findCharacterData,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TempPage(characterName: characterName)));
+                      },
                       icon: const Icon(Icons.search),
                       style: ButtonStyle(
                         backgroundColor:
