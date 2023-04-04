@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ssbu_stats_app/backend/data_manager.dart';
+import 'stages_page.dart';
 
 class TempPage extends StatefulWidget {
   final String characterName;
@@ -11,10 +12,10 @@ class TempPage extends StatefulWidget {
 }
 
 class _TempPageState extends State<TempPage> {
-  String _characterData = 'lnmljm';
+  String _characterData = 'empty';
 
   void _findCharacterData() {
-    final csvReader = CsvReader();
+    final csvReader = CsvReaderGenericResults();
     final characterData = csvReader.findCharacter(widget.characterName);
     setState(() {
       _characterData = characterData;
@@ -26,7 +27,7 @@ class _TempPageState extends State<TempPage> {
     _findCharacterData();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stage Selector'),
+        title: const Text('Character Data'),
         backgroundColor: Colors.blue[900],
         foregroundColor: Colors.yellowAccent[400],
       ),

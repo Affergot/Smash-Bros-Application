@@ -116,11 +116,59 @@ class DataManager {
   }
 }
 
-class CsvReader {
+class CsvReaderGenericResults {
   late final String _filePath;
 
-  CsvReader({String? filePath})
+  CsvReaderGenericResults({String? filePath})
       : _filePath = filePath ?? 'lib/database_files/overall_stage_stats.csv';
+
+  List<String> readLines() {
+    final file = File(_filePath);
+    return file.readAsLinesSync();
+  }
+
+  String findCharacter(String name) {
+    final lines = readLines();
+    var fullDataMap = {};
+    var newMapEntry = {};
+    var outputedText = '';
+    int count = 0;
+
+    for (final line in lines) {
+      final values = line.split(',');
+
+      if (values[2] == name && count < 7) {
+        final stageName = values[1];
+        final wins = int.parse(values[3]);
+        final losses = int.parse(values[4]);
+        final winPercentage = (wins / (wins + losses) * 100).toStringAsFixed(2);
+        newMapEntry = {
+          'winPercentage': winPercentage,
+          'wins': wins,
+          'losses': losses
+        };
+        fullDataMap.addAll({stageName: newMapEntry});
+        count++;
+      }
+    }
+    //Takes all map data inside fullDataMap and sorts it by win percentage
+    fullDataMap = Map.fromEntries(fullDataMap.entries.toList()
+      ..sort((e1, e2) =>
+          e2.value['winPercentage'].compareTo(e1.value['winPercentage'])));
+    //Takes all map data inside fullDataMap and outputs it to a string to be returned
+    for (var stage in fullDataMap.keys) {
+      outputedText +=
+          '\nStage Name: $stage \nWin Percentage: ${fullDataMap[stage]['winPercentage']}% \nWins: ${fullDataMap[stage]['wins']} \nLosses: ${fullDataMap[stage]['losses']} \n';
+    }
+    return outputedText;
+  }
+}
+
+class CsvReaderCharacterSpecific {
+  late final String _filePath;
+
+  CsvReaderCharacterSpecific({String? filePath})
+      : _filePath = filePath ?? 'lib/database_files/matchup_stats.csv';
 
   List<String> readLines() {
     final file = File(_filePath);
@@ -135,11 +183,13 @@ class CsvReader {
     for (final line in lines) {
       final values = line.split(',');
 
-      if (values[2] == name && count < 4) {
-        final stageName = values[1];
-        final wins = int.parse(values[3]);
-        final losses = int.parse(values[4]);
-        text += '\nStage Name: $stageName \nWins: $wins \nLosses: $losses';
+      if (values[2] == name && count < 7) {
+        final stageName = values[4];
+        final wins = int.parse(values[5]);
+        final losses = (int.parse(values[6]) - wins);
+        final winPercentage = (wins / (wins + losses) * 100).toStringAsFixed(2);
+        text +=
+            '\nStage Name: $stageName \nWin Percentage: $winPercentage% \nWins: $wins \nLosses: $losses\n ';
         count++;
       }
     }
