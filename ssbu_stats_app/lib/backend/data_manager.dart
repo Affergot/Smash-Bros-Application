@@ -175,7 +175,7 @@ class CsvReaderCharacterSpecific {
     return file.readAsLinesSync();
   }
 
-  String findCharacter(String name) {
+  String findCharacter(String player, String opponent) {
     final lines = readLines();
     String text = '';
     int count = 0;
@@ -183,7 +183,7 @@ class CsvReaderCharacterSpecific {
     for (final line in lines) {
       final values = line.split(',');
 
-      if (values[2] == name && count < 7) {
+      if (values[2] == player && values[3] == opponent) {
         final stageName = values[4];
         final wins = int.parse(values[5]);
         final losses = (int.parse(values[6]) - wins);
