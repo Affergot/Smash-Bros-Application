@@ -1,4 +1,8 @@
 import 'package:ssbu_stats_app/backend/character_data.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:io';
+import 'package:ssbu_stats_app/backend/matchup_data.dart';
+import 'package:ssbu_stats_app/backend/stages_data.dart';
 
 class DataManager {
   static final DataManager _singleton = DataManager._interal();
@@ -8,6 +12,11 @@ class DataManager {
   }
 
   DataManager._interal();
+
+  List<MatchupData> matchups = [];
+  List<MatchupData> topMatchups = [];
+  List<StagesData> stages = [];
+  List<StagesData> topStages = [];
 
   List<CharacterData> characters = [
     CharacterData("Banjo & Kazooie", "Banjo & Kazooie.png"),
@@ -100,16 +109,189 @@ class DataManager {
   CharacterData opponentCharacter =
       CharacterData("Select Character", "None.png");
 
+  void getTopMatchups() {
+    filterMatchupsByCharacters(playerCharacter, opponentCharacter);
+    sortMatchupsByWinPercentage();
+  }
+
+  void getTopStages() {
+    filterStagesByCharacter(playerCharacter);
+    sortStagesByWinPercentage();
+  }
+
 //create a list of characters based on the _filter String
   List<CharacterData> getFilteredCharacterList(String _filter) {
     List<CharacterData> filteredList = [];
 
     for (int i = 0; i < characters.length; i++) {
-      if (characters[i].characterName.startsWith(_filter)) {
+      if (characters[i]
+          .characterName
+          .toLowerCase()
+          .startsWith(_filter.toLowerCase())) {
         filteredList.add(characters[i]);
       }
     }
 
     return filteredList;
+  }
+
+  void filterStagesByCharacter(CharacterData playerCharacter) {
+    topStages.clear();
+    for (StagesData stageEntry in stages) {
+      if (stageEntry.character == playerCharacter.characterName) {
+        topStages.add(stageEntry);
+      }
+    }
+  }
+
+//Filter top matchups to only include the given characters
+  void filterMatchupsByCharacters(
+      CharacterData character1, CharacterData character2) {
+    topMatchups.clear();
+    for (MatchupData matchupEntry in matchups) {
+      if (matchupEntry.winningCharacter.toLowerCase() ==
+              (character1.characterName.toLowerCase()) &&
+          matchupEntry.losingCharacter.toLowerCase() ==
+              (character2.characterName.toLowerCase())) {
+        topMatchups.add(matchupEntry);
+      }
+    }
+  }
+
+//Sort the top matchups by winning percentage in descending order
+  void sortMatchupsByWinPercentage() {
+    List<MatchupData> sortedMatchups = [];
+    bool hasMovedEntry = true;
+
+    MatchupData? cachedMatchupData;
+
+    sortedMatchups.clear();
+    for (MatchupData matchupData in topMatchups) {
+      sortedMatchups.add(matchupData);
+    }
+
+    while (hasMovedEntry) {
+      hasMovedEntry = false;
+
+      for (int i = sortedMatchups.length - 1; i > 0; i--) {
+        if (sortedMatchups[i].getWinPercentage() >
+            sortedMatchups[i - 1].getWinPercentage()) {
+          cachedMatchupData = sortedMatchups[i - 1];
+          sortedMatchups[i - 1] = sortedMatchups[i];
+          sortedMatchups[i] = cachedMatchupData;
+          hasMovedEntry = true;
+        }
+      }
+    }
+
+    topMatchups = sortedMatchups;
+  }
+
+  void sortStagesByWinPercentage() {
+    List<StagesData> sortedStages = [];
+    bool hasMovedEntry = true;
+
+    StagesData? cachedStagesData;
+
+    sortedStages.clear();
+    for (StagesData stagesData in topStages) {
+      sortedStages.add(stagesData);
+    }
+
+    while (hasMovedEntry) {
+      hasMovedEntry = false;
+
+      for (int i = sortedStages.length - 1; i > 0; i--) {
+        if (sortedStages[i].getWinPercentage() >
+            sortedStages[i - 1].getWinPercentage()) {
+          cachedStagesData = sortedStages[i - 1];
+          sortedStages[i - 1] = sortedStages[i];
+          sortedStages[i] = cachedStagesData;
+          hasMovedEntry = true;
+        }
+      }
+    }
+
+    topStages = sortedStages;
+  }
+}
+
+class CsvReader {
+  late final String _filePath;
+  late final List<String> _dataLines;
+
+  CsvReader({String? filePath})
+      : _filePath =
+            (filePath) ?? ('lib/database_files/overall_stage_stats.csv');
+
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString(_filePath);
+  }
+
+  Future<void> readLines() async {
+    String? assetData = await loadAsset();
+
+    _dataLines = assetData.split('\n');
+  }
+
+  Future<Map<String, dynamic>> findCharacterStageInfo(String name) async {
+    await readLines();
+
+    for (final line in _dataLines) {
+      final values = line.split(',');
+
+      if (values[2] == name) {
+        final stageName = values[1];
+        final wins = int.parse(values[3]);
+        final losses = int.parse(values[4]);
+        return {
+          'stageName': stageName,
+          'wins': wins,
+          'losses': losses,
+        };
+      }
+    }
+
+    return {};
+  }
+
+  void getStageData() async {
+    DataManager dataManager = DataManager();
+
+    dataManager.stages.clear();
+
+    await readLines();
+
+    for (final line in _dataLines) {
+      final values = line.split(',');
+
+      try {
+        StagesData stageData = (StagesData(
+            values[1], values[2], int.parse(values[3]), int.parse(values[4])));
+        dataManager.stages.add(stageData);
+      } catch (error) {
+        print(error);
+      }
+    }
+  }
+
+  void getMatchupData() async {
+    DataManager dataManager = DataManager();
+
+    dataManager.matchups.clear();
+
+    await readLines();
+
+    for (final line in _dataLines) {
+      final values = line.split(',');
+
+      try {
+        MatchupData matchupData = (MatchupData(values[1], values[2], values[3],
+            values[4], int.parse(values[5]), int.parse(values[6])));
+        dataManager.matchups.add(matchupData);
+      } catch (error) {
+        print(error);
+      }
+    }
   }
 }

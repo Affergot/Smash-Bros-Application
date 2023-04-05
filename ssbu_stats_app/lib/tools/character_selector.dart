@@ -25,10 +25,6 @@ class _CharacterSelectState extends State<CharacterSelect> {
         }));
 
     filteredCharacterList = dataManager.characters;
-
-    // for (int i = 0; i < dataManager.characters.length; i++) {
-    //   print(dataManager.characters[i]);
-    // }
   }
 
   void selectCharacter(index) {
