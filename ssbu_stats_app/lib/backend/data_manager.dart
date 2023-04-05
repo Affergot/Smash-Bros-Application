@@ -138,13 +138,19 @@ class CsvReader {
   CsvReader({String? filePath})
       : _filePath = filePath ?? 'lib/database_files/overall_stage_stats.csv';
 
-  List<String> readLines() {
-    final file = File(_filePath);
-    return file.readAsLinesSync();
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('lib/database_files/matchup_stats.csv');
   }
 
-  Map<String, dynamic> findCharacterStageInfo(String name) {
-    final lines = readLines();
+  Future<List<String>> readLines() async {
+    String? assetData = await loadAsset();
+
+    final values = assetData.split('\n');
+    return values;
+  }
+
+  Future<Map<String, dynamic>> findCharacterStageInfo(String name) async {
+    final lines = await readLines();
 
     for (final line in lines) {
       final values = line.split(',');
@@ -164,12 +170,12 @@ class CsvReader {
     return {};
   }
 
-  void getMatchupData() {
+  void getMatchupData() async {
     DataManager dataManager = DataManager();
 
     dataManager.matchups.clear();
 
-    final lines = readLines();
+    final lines = await readLines();
 
     for (final line in lines) {
       final values = line.split(',');
