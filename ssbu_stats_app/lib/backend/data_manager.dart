@@ -2,6 +2,7 @@ import 'package:ssbu_stats_app/backend/character_data.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:io';
 import 'package:ssbu_stats_app/backend/matchup_data.dart';
+import 'package:ssbu_stats_app/backend/stages_data.dart';
 
 class DataManager {
   static final DataManager _singleton = DataManager._interal();
@@ -14,6 +15,8 @@ class DataManager {
 
   List<MatchupData> matchups = [];
   List<MatchupData> topMatchups = [];
+  List<StagesData> stages = [];
+  List<StagesData> topStages = [];
 
   List<CharacterData> characters = [
     CharacterData("Banjo & Kazooie", "Banjo & Kazooie.png"),
@@ -111,6 +114,11 @@ class DataManager {
     sortMatchupsByWinPercentage();
   }
 
+  void getTopStages() {
+    filterStagesByCharacter(playerCharacter);
+    sortStagesByWinPercentage();
+  }
+
 //create a list of characters based on the _filter String
   List<CharacterData> getFilteredCharacterList(String _filter) {
     List<CharacterData> filteredList = [];
@@ -125,6 +133,15 @@ class DataManager {
     }
 
     return filteredList;
+  }
+
+  void filterStagesByCharacter(CharacterData playerCharacter) {
+    topStages.clear();
+    for (StagesData stageEntry in stages) {
+      if (stageEntry.character == playerCharacter.characterName) {
+        topStages.add(stageEntry);
+      }
+    }
   }
 
 //Filter top matchups to only include the given characters
@@ -169,6 +186,34 @@ class DataManager {
 
     topMatchups = sortedMatchups;
   }
+
+  void sortStagesByWinPercentage() {
+    List<StagesData> sortedStages = [];
+    bool hasMovedEntry = true;
+
+    StagesData? cachedStagesData;
+
+    sortedStages.clear();
+    for (StagesData stagesData in topStages) {
+      sortedStages.add(stagesData);
+    }
+
+    while (hasMovedEntry) {
+      hasMovedEntry = false;
+
+      for (int i = sortedStages.length - 1; i > 0; i--) {
+        if (sortedStages[i].getWinPercentage() >
+            sortedStages[i - 1].getWinPercentage()) {
+          cachedStagesData = sortedStages[i - 1];
+          sortedStages[i - 1] = sortedStages[i];
+          sortedStages[i] = cachedStagesData;
+          hasMovedEntry = true;
+        }
+      }
+    }
+
+    topStages = sortedStages;
+  }
 }
 
 class CsvReader {
@@ -208,6 +253,26 @@ class CsvReader {
     }
 
     return {};
+  }
+
+  void getStageData() async {
+    DataManager dataManager = DataManager();
+
+    dataManager.stages.clear();
+
+    await readLines();
+
+    for (final line in _dataLines) {
+      final values = line.split(',');
+
+      try {
+        StagesData stageData = (StagesData(
+            values[1], values[2], int.parse(values[3]), int.parse(values[4])));
+        dataManager.stages.add(stageData);
+      } catch (error) {
+        print(error);
+      }
+    }
   }
 
   void getMatchupData() async {
