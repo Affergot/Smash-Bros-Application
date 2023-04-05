@@ -34,10 +34,10 @@ class _StagePage extends State<StagePage> {
 
   void _findCharacterData() {
     final csvReader = CsvReader();
-    final characterData = csvReader.findCharacterStageInfo(_characterName);
-
-    setState(() {
-      //_characterData = characterData;
+    csvReader.findCharacterStageInfo(_characterName).then((characterData) {
+      setState(() {
+        _characterData = characterData;
+      });
     });
   }
 

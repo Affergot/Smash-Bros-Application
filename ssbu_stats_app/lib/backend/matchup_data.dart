@@ -46,6 +46,6 @@ class MatchupData {
   //Custom formatted information about the character as a String
   @override
   String toString() {
-    return "Matchup Key: ${matchupKey} | Winning Character: ${winningCharacter} | Losing Character: ${losingCharacter} | Stage Name : ${stageName} | Total Wins: ${totalWins} | Total Matchups: ${totalMatchups} | Win Percentage ${getWinPercentage()}%";
+    return "[$winningCharacter vs. $losingCharacter] $stageName | ${getWinPercentage()}% ($totalWins/$totalMatchups)";
   }
 }

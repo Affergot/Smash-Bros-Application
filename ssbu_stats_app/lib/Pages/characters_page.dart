@@ -80,8 +80,10 @@ class _CharactersPageState extends State<CharactersPage> {
                                         const CharacterSelect()),
                               );
                               setState(() {
-                                dataManager.playerCharacter =
-                                    CharacterData.map(selectedCharacter);
+                                if (selectedCharacter != null) {
+                                  dataManager.playerCharacter =
+                                      CharacterData.map(selectedCharacter);
+                                }
                               });
                             },
                             child:
@@ -128,8 +130,10 @@ class _CharactersPageState extends State<CharactersPage> {
                                     builder: (context) => CharacterSelect()),
                               );
                               setState(() {
-                                dataManager.opponentCharacter =
-                                    CharacterData.map(selectedCharacter);
+                                if (selectedCharacter != null) {
+                                  dataManager.opponentCharacter =
+                                      CharacterData.map(selectedCharacter);
+                                }
                               });
                             },
                             child: Text(
@@ -188,7 +192,11 @@ class _CharactersPageState extends State<CharactersPage> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          dataManager.getTopMatchups();
+                        });
+                      },
                       icon: const Icon(Icons.search),
                       style: ButtonStyle(
                         backgroundColor:
@@ -226,7 +234,28 @@ class _CharactersPageState extends State<CharactersPage> {
                                     letterSpacing: 1,
                                   )),
                             ],
-                          )
+                          ),
+                          const SizedBox(height: 10),
+                          Expanded(
+                              child: ListView.builder(
+                            itemCount: (showBestMatchups)
+                                ? 4
+                                : dataManager.topMatchups.length,
+                            itemBuilder: ((context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 1, horizontal: 0),
+                                child: Card(
+                                  child: ListTile(
+                                      title: Text(
+                                    dataManager.topMatchups[index].toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 14),
+                                  )),
+                                ),
+                              );
+                            }),
+                          ))
                         ],
                       ))),
             ),

@@ -1,7 +1,6 @@
 import 'package:ssbu_stats_app/backend/character_data.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:io';
-
 import 'package:ssbu_stats_app/backend/matchup_data.dart';
 
 class DataManager {
@@ -13,16 +12,8 @@ class DataManager {
 
   DataManager._interal();
 
-  List<MatchupData> matchups = [
-    // MatchupData(
-    //     "Bowser Fox Battlefield", "Bowser", "Fox", "Battlefield", 137, 225),
-    // MatchupData("Captain Falcon Ike Pokemon Stadium 2", "Captain Falcon", "Ike",
-    //     "Pokemon Stadium 2", 252, 586),
-    // MatchupData("Ganondorf Link Final Destination", "Ganondorf", "Link",
-    //     "Final Destination", 149, 290),
-    // MatchupData("Lucina Pikachu Town and City", "Lucina", "Pikachu",
-    //     "Town and City", 192, 466)
-  ];
+  List<MatchupData> matchups = [];
+  List<MatchupData> topMatchups = [];
 
   List<CharacterData> characters = [
     CharacterData("Banjo & Kazooie", "Banjo & Kazooie.png"),
@@ -115,6 +106,11 @@ class DataManager {
   CharacterData opponentCharacter =
       CharacterData("Select Character", "None.png");
 
+  void getTopMatchups() {
+    filterMatchupsByCharacters(playerCharacter, opponentCharacter);
+    sortMatchupsByWinPercentage();
+  }
+
 //create a list of characters based on the _filter String
   List<CharacterData> getFilteredCharacterList(String _filter) {
     List<CharacterData> filteredList = [];
@@ -130,29 +126,73 @@ class DataManager {
 
     return filteredList;
   }
+
+//Filter top matchups to only include the given characters
+  void filterMatchupsByCharacters(
+      CharacterData character1, CharacterData character2) {
+    topMatchups.clear();
+    for (MatchupData matchupEntry in matchups) {
+      if (matchupEntry.winningCharacter.toLowerCase() ==
+              (character1.characterName.toLowerCase()) &&
+          matchupEntry.losingCharacter.toLowerCase() ==
+              (character2.characterName.toLowerCase())) {
+        topMatchups.add(matchupEntry);
+      }
+    }
+  }
+
+//Sort the top matchups by winning percentage in descending order
+  void sortMatchupsByWinPercentage() {
+    List<MatchupData> sortedMatchups = [];
+    bool hasMovedEntry = true;
+
+    MatchupData? cachedMatchupData;
+
+    sortedMatchups.clear();
+    for (MatchupData matchupData in topMatchups) {
+      sortedMatchups.add(matchupData);
+    }
+
+    while (hasMovedEntry) {
+      hasMovedEntry = false;
+
+      for (int i = sortedMatchups.length - 1; i > 0; i--) {
+        if (sortedMatchups[i].getWinPercentage() >
+            sortedMatchups[i - 1].getWinPercentage()) {
+          cachedMatchupData = sortedMatchups[i - 1];
+          sortedMatchups[i - 1] = sortedMatchups[i];
+          sortedMatchups[i] = cachedMatchupData;
+          hasMovedEntry = true;
+        }
+      }
+    }
+
+    topMatchups = sortedMatchups;
+  }
 }
 
 class CsvReader {
   late final String _filePath;
+  late final List<String> _dataLines;
 
   CsvReader({String? filePath})
-      : _filePath = filePath ?? 'lib/database_files/overall_stage_stats.csv';
+      : _filePath =
+            (filePath) ?? ('lib/database_files/overall_stage_stats.csv');
 
   Future<String> loadAsset() async {
-    return await rootBundle.loadString('lib/database_files/matchup_stats.csv');
+    return await rootBundle.loadString(_filePath);
   }
 
-  Future<List<String>> readLines() async {
+  Future<void> readLines() async {
     String? assetData = await loadAsset();
 
-    final values = assetData.split('\n');
-    return values;
+    _dataLines = assetData.split('\n');
   }
 
   Future<Map<String, dynamic>> findCharacterStageInfo(String name) async {
-    final lines = await readLines();
+    await readLines();
 
-    for (final line in lines) {
+    for (final line in _dataLines) {
       final values = line.split(',');
 
       if (values[2] == name) {
@@ -175,9 +215,9 @@ class CsvReader {
 
     dataManager.matchups.clear();
 
-    final lines = await readLines();
+    await readLines();
 
-    for (final line in lines) {
+    for (final line in _dataLines) {
       final values = line.split(',');
 
       try {
@@ -188,6 +228,5 @@ class CsvReader {
         print(error);
       }
     }
-    print(dataManager.matchups[18]);
   }
 }
