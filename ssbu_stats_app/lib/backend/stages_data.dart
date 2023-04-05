@@ -41,6 +41,6 @@ class StagesData {
   //Custom formatted information about the character as a String
   @override
   String toString() {
-    return "$character$stageName | ${getWinPercentage()}% ($wins/$losses)";
+    return "$stageName | ${getWinPercentage()}% ($wins/$losses)";
   }
 }
