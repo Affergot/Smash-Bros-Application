@@ -29,7 +29,7 @@ class _StagePage extends State<StagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stage Selector'),
+        title: const Text('Character Selector'),
         backgroundColor: Colors.blue[900],
         foregroundColor: Colors.yellowAccent[400],
       ),

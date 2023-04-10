@@ -29,7 +29,7 @@ class _CharactersPageState extends State<CharactersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Matchup Finder'),
+        title: const Text('Stage Optimizer'),
         backgroundColor: Colors.blue[900],
         foregroundColor: Colors.yellowAccent[400],
       ),

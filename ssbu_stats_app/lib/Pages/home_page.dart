@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: const Text('Matchup Finder'),
+              title: const Text('Stage Optimizer'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Stages'),
+              title: const Text('Character Selector'),
               onTap: () {
                 Navigator.push(
                   context,
