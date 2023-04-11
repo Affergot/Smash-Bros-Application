@@ -136,6 +136,7 @@ class DataManager {
     return filteredList;
   }
 
+//Filters top stages to only include stages that involve playerCharacter
   void filterStagesByCharacter(CharacterData playerCharacter) {
     topStages.clear();
     for (StagesData stageEntry in stages) {
@@ -165,12 +166,13 @@ class DataManager {
     bool hasMovedEntry = true;
 
     MatchupData? cachedMatchupData;
-
+//Uses bubble sort algorithm
     sortedMatchups.clear();
+//Copies topMatchups to sortedMatchups
     for (MatchupData matchupData in topMatchups) {
       sortedMatchups.add(matchupData);
     }
-
+//Continues to compare and potentially swap neighbors as long as hasMovedEntry flag is true
     while (hasMovedEntry) {
       hasMovedEntry = false;
 
@@ -184,21 +186,23 @@ class DataManager {
         }
       }
     }
-
+//Replaces previous topMatchups with sortedMatchups
     topMatchups = sortedMatchups;
   }
 
+//Sort the top stages by winning percentage in descending order
   void sortStagesByWinPercentage() {
     List<StagesData> sortedStages = [];
     bool hasMovedEntry = true;
 
     StagesData? cachedStagesData;
-
+//Uses bubble sort algorithm
     sortedStages.clear();
+//Copies stagesData to topStages
     for (StagesData stagesData in topStages) {
       sortedStages.add(stagesData);
     }
-
+//Continues to compare and potentially swap neighbors as long as hasMovedEntry flag is true
     while (hasMovedEntry) {
       hasMovedEntry = false;
 
@@ -212,7 +216,7 @@ class DataManager {
         }
       }
     }
-
+//Replaces previous topStages with sortedStages
     topStages = sortedStages;
   }
 }
@@ -224,17 +228,19 @@ class CsvReader {
   CsvReader({String? filePath})
       : _filePath =
             (filePath) ?? ('lib/database_files/overall_stage_stats.csv');
-
+//Reads all data from _filePath and returns it as a string
   Future<String> loadAsset() async {
     return await rootBundle.loadString(_filePath);
   }
 
+//Takes data from Csv file and splits it into individual lines
   Future<void> readLines() async {
     String? assetData = await loadAsset();
 
     _dataLines = assetData.split('\n');
   }
 
+//Parses data based on overall_character_stats.csv for a given character
   Future<Map<String, dynamic>> findCharacterStageInfo(String name) async {
     await readLines();
 
@@ -256,6 +262,7 @@ class CsvReader {
     return {};
   }
 
+//Parses data based on overall_stage_stats.csv and stores them in data manager
   void getStageData() async {
     DataManager dataManager = DataManager();
 
@@ -276,6 +283,7 @@ class CsvReader {
     }
   }
 
+//Parses data based on matchup_stats.csv and stores them in data manager
   void getMatchupData() async {
     DataManager dataManager = DataManager();
 
